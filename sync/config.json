@@ -13,7 +13,7 @@
   },
   "schema": {
     "target": "url",
-    "username": "str,
+    "username": "str",
     "password": "str"
   },
   "image": "hub/{arch}-sync"
