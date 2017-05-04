@@ -1,0 +1,18 @@
+{
+  "name": "Coffe Maker",
+  "version": "1.2",
+  "slug": "coffee_maker",
+  "description": "Expose a webfrontent to controll my coffee maker",
+  "startup": "before",
+  "boot": "auto",
+  "ports": {
+    "80/tcp": 8080
+  },
+  "options": {
+    "device": null
+  },
+  "schema": {
+    "device": "str"
+  },
+  "image": "hub/{arch}-coffee-maker"
+}
