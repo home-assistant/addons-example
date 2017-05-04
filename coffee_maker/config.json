@@ -2,7 +2,7 @@
   "name": "Coffe Maker",
   "version": "1.2",
   "slug": "coffee_maker",
-  "description": "Expose a webfrontent to controll my coffee maker",
+  "description": "Expose a web frontend to control my coffee maker",
   "startup": "before",
   "boot": "auto",
   "ports": {
