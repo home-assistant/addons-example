@@ -5,6 +5,7 @@
   "description": "Sync config files over sftp",
   "startup": "once",
   "boot": "manual",
+  "map": ["config"],
   "options": {
     "target": null,
     "username": null,
