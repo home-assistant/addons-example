@@ -1,6 +1,6 @@
 FROM %%BASE_IMAGE%%
 
-# Add version
+# Add env
 ENV LANG C.UTF-8
 
 # Setup base
