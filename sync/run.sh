@@ -1,5 +1,5 @@
 #!/bin/bash
-sed -e
+set -e
 
 CONFIG_PATH=/data/options.json
 
