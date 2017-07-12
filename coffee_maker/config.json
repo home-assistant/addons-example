@@ -1,5 +1,5 @@
 {
-  "name": "Coffe Maker",
+  "name": "Coffee Maker",
   "version": "1.2",
   "slug": "coffee_maker",
   "description": "Expose a web frontend to control my coffee maker",
