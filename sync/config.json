@@ -2,6 +2,7 @@
   "name": "Sync",
   "version": "0.4",
   "slug": "sync",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "description": "Sync config files over sftp",
   "startup": "once",
   "boot": "manual",
