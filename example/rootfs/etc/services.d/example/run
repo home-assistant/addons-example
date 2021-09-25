@@ -1,0 +1,8 @@
+#!/usr/bin/with-contenv bashio
+# ==============================================================================
+# Start the example service
+# ==============================================================================
+
+## Add your code here
+
+bashio::log.info "Hello world"

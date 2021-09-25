@@ -1,0 +1,49 @@
+name: Lint
+
+on: 
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  schedule:
+    - cron: "0 0 * * *"
+
+jobs:
+  find:
+    name: Find add-ons
+    runs-on: ubuntu-latest
+    outputs:
+      addons: ${{ steps.addons.outputs.addons }}
+    steps:
+      - name: ⤵️ Check out code from GitHub
+        uses: actions/checkout@v2
+        
+      - name: 🔍 Find add-on directories
+        id: addons
+        run: |
+          declare -a found_addons
+          for addon in $(find ./ -name config.json | cut -d "/" -f2 | sort -u); do
+            found_addons+=("\"${addon}\",");
+          done
+          addons=$(echo ${found_addons[@]} | rev | cut -c 2- | rev)
+          echo "Add-ons found: ${addons}"
+          echo "::set-output name=addons::[${addons}]"
+
+
+  lint:
+    name: Lint add-on ${{ matrix.path }}
+    runs-on: ubuntu-latest
+    needs: find
+    strategy:
+      matrix: 
+        path: ${{ fromJson(needs.find.outputs.addons) }}
+    steps:
+      - name: ⤵️ Check out code from GitHub
+        uses: actions/checkout@v2
+
+      - name: 🚀 Run Home Assistant Add-on Lint
+        uses: frenck/action-addon-linter@v2.3.0
+        with:
+          path: "./${{ matrix.path }}"
