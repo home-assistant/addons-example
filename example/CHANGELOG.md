@@ -1,4 +1,8 @@
 <!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+## 1.0.1
+
+- Use yaml for config and build files
+
 ## 1.0.0
 
 - Complete refresh of all files

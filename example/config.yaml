@@ -1,5 +1,5 @@
 name: Example add-on
-version: "1.0.0"
+version: "1.0.1"
 slug: example
 description: Example add-on
 url: "https://github.com/home-assistant/addons-example/tree/master/example"
