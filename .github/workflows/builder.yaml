@@ -2,7 +2,7 @@ name: Builder
 
 env:
   BUILD_ARGS: "--test"
-  MONITORED_FILES: "build.json config.json Dockerfile rootfs"
+  MONITORED_FILES: "build.yaml config.yaml Dockerfile rootfs"
 
 on:
   push:
@@ -32,7 +32,7 @@ jobs:
         id: addons
         run: |
           declare -a addons
-          for addon in $(find ./ -name config.json | cut -d "/" -f2 | sort -u); do
+          for addon in $(find ./ -name config.yaml | cut -d "/" -f2 | sort -u); do
             addons+=("$addon");
           done
           echo "::set-output name=addons::${addons[@]}"
@@ -87,7 +87,7 @@ jobs:
             else
               echo "${{ matrix.arch }} is not a valid arch for ${{ matrix.addon }}, skipping build";
            fi
-           image=$(jq -r '.image' "./${{ matrix.addon }}/config.json" | cut -d"/" -f3)
+           image=$(jq -r '.image' "./${{ matrix.addon }}/config.yaml" | cut -d"/" -f3)
            echo "::set-output name=image::${image}";
 
       - name: Set build arguments

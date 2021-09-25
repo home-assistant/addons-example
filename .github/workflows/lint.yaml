@@ -24,7 +24,7 @@ jobs:
         id: addons
         run: |
           declare -a found_addons
-          for addon in $(find ./ -name config.json | cut -d "/" -f2 | sort -u); do
+          for addon in $(find ./ -name config.yaml | cut -d "/" -f2 | sort -u); do
             found_addons+=("\"${addon}\",");
           done
           addons=$(echo ${found_addons[@]} | rev | cut -c 2- | rev)
