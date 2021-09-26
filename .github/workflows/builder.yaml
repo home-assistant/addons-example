@@ -81,7 +81,7 @@ jobs:
         run: |
           if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
              echo "::set-output name=build_arch::true";
-             echo "::set-output name=image::$(echo '${{ steps.info.outputs.image }}' | cut -d'/' -f3)";
+             echo "::set-output name=image::$(echo ${{ steps.info.outputs.image }} | cut -d'/' -f3)";
              if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "push" ]]; then
                  echo "BUILD_ARGS=" >> $GITHUB_ENV;
              fi
