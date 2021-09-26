@@ -12,4 +12,4 @@ Follow these steps to get the add-on installed on your system:
 
 This add-on really does nothing. It is just an example.
 
-When started it will print "Hello world" in the log and exit.
+When started it will print the configured message or "Hello world" in the log.
