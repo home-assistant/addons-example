@@ -15,7 +15,7 @@ jobs:
     name: Find add-ons
     runs-on: ubuntu-latest
     outputs:
-      addons: ${{ steps.addons.outputs.addons }}
+      addons: ${{ steps.addons.outputs.addons_list }}
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v2
