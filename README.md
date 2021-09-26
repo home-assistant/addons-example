@@ -25,7 +25,7 @@ _Example add-on to use as a blueprint for new add-ons._
 <!--
 
 Notes to developers after forking or using the github template feature:
-- While developing remove the 'image'  tag from 'example/config.yaml' to make the supervisor build the addon
+- While developing comment out the 'image' key from 'example/config.yaml' to make the supervisor build the addon
   - Remember to put this back when pushing up your changes.
 - When you merge to the 'master' branch of your repository a new build will be triggered.
   - Make sure you adjust the 'version' key in 'example/config.yaml' when you do that.
