@@ -22,15 +22,7 @@ jobs:
         
       - name: 🔍 Find add-on directories
         id: addons
-        run: |
-          declare -a found_addons
-          for addon in $(find ./ -name config.yaml | cut -d "/" -f2 | sort -u); do
-            found_addons+=("\"${addon}\",");
-          done
-          addons=$(echo ${found_addons[@]} | rev | cut -c 2- | rev)
-          echo "Add-ons found: ${addons}"
-          echo "::set-output name=addons::[${addons}]"
-
+        uses: home-assistant/actions/helpers/find-addons@master
 
   lint:
     name: Lint add-on ${{ matrix.path }}

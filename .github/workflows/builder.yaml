@@ -27,7 +27,7 @@ jobs:
         id: changed_files
         uses: jitterbit/get-changed-files@v1
 
-      - name: Get add-ons
+      - name: Find add-on directories
         id: addons
         uses: home-assistant/actions/helpers/find-addons@master
 
