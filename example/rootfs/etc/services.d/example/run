@@ -6,3 +6,5 @@
 ## Add your code here
 
 bashio::log.info "Hello world"
+
+# exec my_program --with-params
