@@ -62,7 +62,7 @@ jobs:
     if: needs.init.outputs.changed == 'true'
     name: Build ${{ matrix.arch }} ${{ matrix.addon }} add-on
     strategy:
-      matrix: 
+      matrix:
         addon: ${{ fromJson(needs.init.outputs.changed_addons) }}
         arch: ["aarch64", "amd64", "armhf", "armv7", "i386"]
 
@@ -79,15 +79,16 @@ jobs:
       - name: Check if add-on should be built
         id: check
         run: |
-           if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
-              echo "::set-output name=build_arch::true";
-              if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "push" ]]; then
-                  echo "BUILD_ARGS=" >> $GITHUB_ENV;
-              fi
-            else
-              echo "${{ matrix.arch }} is not a valid arch for ${{ matrix.addon }}, skipping build";
-              echo "::set-output name=build_arch::false";
-           fi
+          if [[ "${{ steps.info.outputs.architectures }}" =~ ${{ matrix.arch }} ]]; then
+             echo "::set-output name=build_arch::true";
+             echo "::set-output name=image::$(echo '${{ steps.info.outputs.image }}' | cut -d'/' -f3)";
+             if [[ -z "${{ github.head_ref }}" ]] && [[ "${{ github.event_name }}" == "push" ]]; then
+                 echo "BUILD_ARGS=" >> $GITHUB_ENV;
+             fi
+           else
+             echo "${{ matrix.arch }} is not a valid arch for ${{ matrix.addon }}, skipping build";
+             echo "::set-output name=build_arch::false";
+          fi
 
       - name: Login to GitHub Container Registry
         if: env.BUILD_ARGS != '--test'
@@ -105,6 +106,6 @@ jobs:
             ${{ env.BUILD_ARGS }} \
             --${{ matrix.arch }} \
             --target /data/${{ matrix.addon }} \
-            --image "$(echo '${{ steps.info.outputs.image }}' | cut -d'/' -f3)" \
+            --image "${{ steps.check.outputs.image }}" \
             --docker-hub "ghcr.io/${{ github.repository_owner }}" \
             --addon
