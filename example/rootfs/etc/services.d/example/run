@@ -9,7 +9,7 @@
 CONFIG_MESSAGE=$(bashio::config 'message')
 
 ## Set the message to be printed, defaults to "Hello World..."
-PRINT_MESSAGE=${MESSAGE:="Hello World..."}
+PRINT_MESSAGE=${CONFIG_MESSAGE:="Hello World..."}
 
 ## Print the message the user supplied
 bashio::log.info "${PRINT_MESSAGE}"
