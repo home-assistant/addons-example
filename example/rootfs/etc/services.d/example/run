@@ -3,8 +3,16 @@
 # Start the example service
 # ==============================================================================
 
-## Add your code here
+# Add your code here
 
-bashio::log.info "Hello world"
+## Get the 'message' key from the user config options.
+CONFIG_MESSAGE=$(bashio::config 'message')
 
+## Set the message to be printed, defaults to "Hello World..."
+PRINT_MESSAGE=${CONFIG_MESSAGE:="Hello World..."}
+
+## Print the message the user supplied
+bashio::log.info "${PRINT_MESSAGE}"
+
+## Run your program
 # exec my_program --with-params
