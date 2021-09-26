@@ -1,0 +1,14 @@
+# https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
+name: Example add-on
+version: "1.0.1"
+slug: example
+description: Example add-on
+url: "https://github.com/home-assistant/addons-example/tree/master/example"
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+startup: once
+image: "ghcr.io/home-assistant/{arch}-addon-example"
