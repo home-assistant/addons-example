@@ -1,18 +1,19 @@
 #!/usr/bin/with-contenv bashio
 # ==============================================================================
 # Start the example service
+# s6-overlay docs: https://github.com/just-containers/s6-overlay
 # ==============================================================================
 
 # Add your code here
 
+# Declare variables
+declare message
+
 ## Get the 'message' key from the user config options.
-CONFIG_MESSAGE=$(bashio::config 'message')
+message=$(bashio::config 'message')
 
-## Set the message to be printed, defaults to "Hello World..."
-PRINT_MESSAGE=${CONFIG_MESSAGE:="Hello World..."}
-
-## Print the message the user supplied
-bashio::log.info "${PRINT_MESSAGE}"
+## Print the message the user supplied, defaults to "Hello World..."
+bashio::log.info "${message:="Hello World..."}"
 
 ## Run your program
 # exec my_program --with-params
