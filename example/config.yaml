@@ -3,7 +3,7 @@ name: Example add-on
 version: "1.1.0"
 slug: example
 description: Example add-on
-url: "https://github.com/home-assistant/addons-example/tree/master/example"
+url: "https://github.com/home-assistant/addons-example/tree/main/example"
 arch:
   - armhf
   - armv7
