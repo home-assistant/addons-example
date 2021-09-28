@@ -1,6 +1,6 @@
 name: Lint
 
-on: 
+on:
   push:
     branches:
       - master
@@ -19,7 +19,7 @@ jobs:
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v2
-        
+
       - name: 🔍 Find add-on directories
         id: addons
         uses: home-assistant/actions/helpers/find-addons@master
@@ -29,13 +29,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: find
     strategy:
-      matrix: 
+      matrix:
         path: ${{ fromJson(needs.find.outputs.addons) }}
     steps:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v2
 
       - name: 🚀 Run Home Assistant Add-on Lint
-        uses: frenck/action-addon-linter@v2.3.0
+        uses: frenck/action-addon-linter@v2.4.1
         with:
           path: "./${{ matrix.path }}"
