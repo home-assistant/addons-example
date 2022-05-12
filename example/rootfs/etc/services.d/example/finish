@@ -1,9 +1,12 @@
-#!/usr/bin/bash
+#!/usr/bin/env bashio
 # ==============================================================================
 # Take down the S6 supervision tree when example fails
 # s6-overlay docs: https://github.com/just-containers/s6-overlay
 # ==============================================================================
 
 if [[ "$1" -ne 0 ]] && [[ "$1" -ne 256 ]]; then
+  bashio::log.warning "Service shutdown"
   /run/s6/basedir/bin/halt
 fi
+
+bashio::log.info "Service restart after closing"
