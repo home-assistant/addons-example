@@ -1,0 +1,53 @@
+#include <tunables/global>
+
+profile example flags=(attach_disconnected,mediate_deleted) {
+  #include <abstractions/base>
+
+  network,
+  deny network raw,
+
+  signal (send) set=(kill,term,int,hup,cont),
+
+  capability net_admin,
+  capability net_bind_service,
+  capability dac_read_search,
+  capability dac_override,
+
+  /bin/** ix,
+  /usr/bin/** ix,
+  /usr/lib/bashio/** ix,
+  /etc/s6/** ix,
+  /run/{s6,s6-rc*,service}/** ix,
+  /package/** ix,
+  /command/** ix,
+  /etc/services.d/** rwix,
+  /etc/cont-init.d/** rwix,
+  /etc/cont-finish.d/** rwix,
+
+  deny /proc/** wl,
+  deny /sys/** wl,
+
+  / r,
+  /** r,
+  /tmp/** rwk,
+  /data/** rw,
+  /run/{,**} rwk,
+  /dev/tty rw,
+
+  /usr/bin/my_program cx -> my_program,
+
+  profile my_program flags=(attach_disconnected,mediate_deleted) {
+    #include <abstractions/base>
+
+    signal (receive) peer=*_example,
+
+    /etc/passwd r,
+    /data/** rw,
+    /dev/tty rw,
+    /share/** rw,
+
+    /usr/bin/my_program r,
+    /bin/bash rix,
+    /bin/echo ix,
+  }
+}
