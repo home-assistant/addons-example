@@ -51,11 +51,6 @@ The password of the basic auth
 
 webhook_url
 
-### Option: `prometheus_metrics` (required)
-
-prometheus_metrics
-
-
 ### Option: `allow_external` (required)
 
 NODE_FUNCTION_ALLOW_EXTERNAL
