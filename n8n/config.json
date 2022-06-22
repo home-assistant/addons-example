@@ -1,0 +1,48 @@
+{
+  "name": "Home Assistant - n8n",
+  "version": "0.180.0",
+  "slug": "hass-n8n",
+  "description": "hass-n8n forked from Rbillon59 by niefuend",
+  "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
+  "startup": "application",
+  "boot": "auto",
+  "icon": "ico.png",
+  "logo": "ico.png",
+  "map": ["ssl"],
+  "apparmor": true,
+  "panel_admin": true,
+  "panel_icon": "mdi:family-tree",
+  "ingress": true,
+  "ingress_port": 0,
+  "ingress_stream": true,
+  "ports": {
+    "5678/tcp": 5678
+  },
+  "ports_description": {
+    "5678/tcp": "n8n Web interface"
+  },
+  "options": {
+    "auth": false,
+    "auth_username": "",
+    "auth_password": "",
+    "webhook_url": "",
+    "prometheus_metrics": false,
+    "timezone": "Europe/Berlin",
+    "protocol": "https",
+    "certfile": "fullchain.pem",
+    "keyfile": "privkey.pem"
+  },
+  "schema": {
+    "auth": "bool",
+    "auth_username": "str?",
+    "auth_password": "str?",
+    "webhook_url": "str?",
+    "prometheus_metrics": "bool?",
+    "allow_external": "str?",
+    "allow_builtin": "str?",
+    "timezone": "str",
+    "protocol": "str",
+    "certfile": "str",
+    "keyfile": "str"
+  }
+}
