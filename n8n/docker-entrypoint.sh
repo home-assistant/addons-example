@@ -19,16 +19,19 @@ export N8N_BASIC_AUTH_PASSWORD="$(jq --raw-output '.auth_password // empty' $CON
 export GENERIC_TIMEZONE="$(jq --raw-output '.timezone // empty' $CONFIG_PATH)"
 export WEBHOOK_URL="$(jq --raw-output '.webhook_url // empty' $CONFIG_PATH)"
 export VUE_APP_URL_BASE_API="$(jq --raw-output '.webhook_url // empty' $CONFIG_PATH)"
-export N8N_METRICS="$(jq --raw-output '.prometheus_metrics // empty' $CONFIG_PATH)"
-
-export NODE_FUNCTION_ALLOW_EXTERNAL="$(jq --raw-output '.allow_external // empty' $CONFIG_PATH)"
-export NODE_FUNCTION_ALLOW_BUILTIN="$(jq --raw-output '.allow_builtin // empty' $CONFIG_PATH)"
 
 export N8N_PROTOCOL="$(jq --raw-output '.protocol // empty' $CONFIG_PATH)"
 export N8N_HOST="$(jq --raw-output '.host // empty' $CONFIG_PATH)"
+export N8N_PATH="$(jq --raw-output '.path // empty' $CONFIG_PATH)"
+export NODE_FUNCTION_ALLOW_EXTERNAL="$(jq --raw-output '.allow_external // empty' $CONFIG_PATH)"
+export NODE_FUNCTION_ALLOW_BUILTIN="$(jq --raw-output '.allow_builtin // empty' $CONFIG_PATH)"
+
+export N8N_DIAGNOSTICS_ENABLED="$(jq --raw-output '.telemetry // empty' $CONFIG_PATH)"
 export N8N_SSL_CERT="/ssl/$(jq --raw-output '.certfile // empty' $CONFIG_PATH)"
 export N8N_SSL_KEY="/ssl/$(jq --raw-output '.keyfile // empty' $CONFIG_PATH)"
 export N8N_USER_FOLDER="${N8N_PATH}"
+
+
 
 if [ -z "${N8N_BASIC_AUTH_USER}" ] || [ -z "${N8N_BASIC_AUTH_ACTIVE}" ]; then
     export N8N_BASIC_AUTH_ACTIVE=false
