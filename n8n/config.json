@@ -40,15 +40,15 @@
     "auth": "bool",
     "auth_username": "str?",
     "auth_password": "str?",
-    "protocol": "str=",
+    "protocol": "str?",
     "host": "str?",
     "path": "str?",
     "webhook_url": "str?",
     "allow_external": "str?",
     "allow_builtin": "str?",
-    "timezone": "str",
+    "timezone": "str?",
     "telemetry": "bool",
-    "certfile": "str",
-    "keyfile": "str"
+    "certfile": "str?",
+    "keyfile": "str?"
   }
 }
