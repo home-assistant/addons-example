@@ -13,7 +13,7 @@
   "panel_admin": true,
   "panel_icon": "mdi:family-tree",
   "ingress": true,
-  "ingress_port": 0,
+  "ingress_port": 5678,
   "ingress_stream": true,
   "ports": {
     "5678/tcp": 5678
@@ -28,7 +28,7 @@
     "webhook_url": "",
     "prometheus_metrics": false,
     "timezone": "Europe/Berlin",
-    "protocol": "https",
+    "protocol": "http",
     "certfile": "fullchain.pem",
     "keyfile": "privkey.pem"
   },
