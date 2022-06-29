@@ -1,9 +1,9 @@
 #!/bin/sh
 
 CONFIG_PATH="/data/options.json"
-N8N_PATH="/data/n8n"
+N8N_PATH_LOCAL="/data/n8n"
 
-mkdir -p "${N8N_PATH}/.n8n"
+mkdir -p "${N8N_PATH_LOCAL}/.n8n"
 
 
 #####################
@@ -22,14 +22,14 @@ export VUE_APP_URL_BASE_API="$(jq --raw-output '.webhook_url // empty' $CONFIG_P
 
 export N8N_PROTOCOL="$(jq --raw-output '.protocol // empty' $CONFIG_PATH)"
 export N8N_HOST="$(jq --raw-output '.host // empty' $CONFIG_PATH)"
-#export N8N_PATH="$(jq --raw-output '.url_path // empty' $CONFIG_PATH)"
+export N8N_PATH="$(jq --raw-output '.url_path // empty' $CONFIG_PATH)"
 export NODE_FUNCTION_ALLOW_EXTERNAL="$(jq --raw-output '.allow_external // empty' $CONFIG_PATH)"
 export NODE_FUNCTION_ALLOW_BUILTIN="$(jq --raw-output '.allow_builtin // empty' $CONFIG_PATH)"
 
 export N8N_DIAGNOSTICS_ENABLED="$(jq --raw-output '.telemetry // empty' $CONFIG_PATH)"
 export N8N_SSL_CERT="/ssl/$(jq --raw-output '.certfile // empty' $CONFIG_PATH)"
 export N8N_SSL_KEY="/ssl/$(jq --raw-output '.keyfile // empty' $CONFIG_PATH)"
-export N8N_USER_FOLDER="${N8N_PATH}"
+export N8N_USER_FOLDER="${N8N_PATH_LOCAL}"
 
 
 
@@ -45,10 +45,10 @@ fi
 ###########
 
 
-if [ -d ${N8N_PATH} ] ; then
-  chmod o+rx ${N8N_PATH}
-  chown -R node ${N8N_PATH}/.n8n
-  ln -s ${N8N_PATH}/.n8n /home/node/
+if [ -d ${N8N_PATH_LOCAL} ] ; then
+  chmod o+rx ${N8N_PATH_LOCAL}
+  chown -R node ${N8N_PATH_LOCAL}/.n8n
+  ln -s ${N8N_PATH_LOCAL}/.n8n /home/node/
 fi
 
 chown -R node /home/node
