@@ -7,7 +7,7 @@ profile example flags=(attach_disconnected,mediate_deleted) {
   file,
   signal (send) set=(kill,term,int,hup,cont),
 
-  # S6-Overlay
+  S6-Overlay
   /init ix,
   /bin/** ix,
   /usr/bin/** ix,
