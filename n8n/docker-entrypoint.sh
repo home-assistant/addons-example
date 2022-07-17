@@ -17,9 +17,26 @@ export N8N_BASIC_AUTH_ACTIVE="$(jq --raw-output '.auth // empty' $CONFIG_PATH)"
 export N8N_BASIC_AUTH_USER="$(jq --raw-output '.auth_username // empty' $CONFIG_PATH)"
 export N8N_BASIC_AUTH_PASSWORD="$(jq --raw-output '.auth_password // empty' $CONFIG_PATH)"
 
-export DB_MYSQLDB_HOST="$(jq --raw-output '.sql_host // empty' $CONFIG_PATH)"
-export DB_MYSQLDB_USER="$(jq --raw-output '.sql_user // empty' $CONFIG_PATH)"
-export DB_MYSQLDB_PASSWORD="$(jq --raw-output '.sql_password // empty' $CONFIG_PATH)"
+
+export DB_TYPE="$(jq --raw-output '.db_type // empty' $CONFIG_PATH)"
+
+case $DB_TYPE in
+  "mariadb" | "mysqldb")
+    export DB_MYSQLDB_HOST="$(jq --raw-output '.db_host // empty' $CONFIG_PATH)"
+    export DB_MYSQLDB_USER="$(jq --raw-output '.db_user // empty' $CONFIG_PATH)"
+    export DB_MYSQLDB_PASSWORD="$(jq --raw-output '.db_password // empty' $CONFIG_PATH)"
+    ;;
+  "postgresdb")
+    export DB_POSTGRESDB_HOST="$(jq --raw-output '.db_host // empty' $CONFIG_PATH)"
+    export DB_POSTGRESDB_USER="$(jq --raw-output '.db_user // empty' $CONFIG_PATH)"
+    export DB_POSTGRESDB_PASSWORD="$(jq --raw-output '.db_password // empty' $CONFIG_PATH)"
+    break
+    ;;
+  *)
+    echo "sqlite"
+    ;;
+esac
+
 
 export GENERIC_TIMEZONE="$(jq --raw-output '.timezone // empty' $CONFIG_PATH)"
 export WEBHOOK_URL="$(jq --raw-output '.webhook_url // empty' $CONFIG_PATH)"
