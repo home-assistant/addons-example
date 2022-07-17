@@ -1,6 +1,6 @@
 {
   "name": "Home Assistant - n8n",
-  "version": "0.186.1.5",
+  "version": "0.186.1.6",
   "slug": "hass-n8n",
   "description": "hass-n8n forked from Rbillon59 by niefuend",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
@@ -31,6 +31,7 @@
     "db_user": "n8n",
     "db_password": "changeme",
     "host": "",
+    "url_path": "/",
     "webhook_url": "",
     "allow_external": "moment,lodash",
     "allow_builtin": "*",
@@ -49,6 +50,7 @@
     "db_password": "str?",
     "protocol": "list(http|https)?",
     "host": "str?",
+    "url_path": "str?",
     "webhook_url": "str?",
     "allow_external": "str?",
     "allow_builtin": "str?",
