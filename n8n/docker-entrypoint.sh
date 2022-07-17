@@ -11,7 +11,6 @@ mkdir -p "${N8N_PATH_LOCAL}/.n8n"
 echo "Start n8n"
 echo "CONFIG:"
 cat $CONFIG_PATH
-
 echo "Set env variables"
 #####################
 ## USER PARAMETERS ##
@@ -57,11 +56,8 @@ export NODE_FUNCTION_ALLOW_EXTERNAL="$(jq --raw-output '.allow_external // empty
 export NODE_FUNCTION_ALLOW_BUILTIN="$(jq --raw-output '.allow_builtin // empty' $CONFIG_PATH)"
 
 export N8N_DIAGNOSTICS_ENABLED="$(jq --raw-output '.telemetry // empty' $CONFIG_PATH)"
-export N8N_SSL_CERT="/ssl/$(jq --raw-output '.certfile // empty' $CONFIG_PATH)"
-export N8N_SSL_KEY="/ssl/$(jq --raw-output '.keyfile // empty' $CONFIG_PATH)"
+
 export N8N_USER_FOLDER="${N8N_PATH_LOCAL}"
-
-
 
 if [ -z "${N8N_BASIC_AUTH_USER}" ] || [ -z "${N8N_BASIC_AUTH_ACTIVE}" ]; then
     export N8N_BASIC_AUTH_ACTIVE=false
