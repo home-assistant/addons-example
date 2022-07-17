@@ -25,9 +25,9 @@ export N8N_BASIC_AUTH_USER="$(jq --raw-output '.auth_username // empty' $CONFIG_
 export N8N_BASIC_AUTH_PASSWORD="$(jq --raw-output '.auth_password // empty' $CONFIG_PATH)"
 
 
-export DB_TYPE="$(jq --raw-output '.db_type // sqlite' $CONFIG_PATH)"
+export DB_TYPE="$(jq --raw-output '.db_type // empty' $CONFIG_PATH)"
 
-case $DB_TYPE in
+case "${DB_TYPE}" in
   "mariadb" | "mysqldb")
     export DB_MYSQLDB_HOST="$(jq --raw-output '.db_host // empty' $CONFIG_PATH)"
     export DB_MYSQLDB_USER="$(jq --raw-output '.db_user // empty' $CONFIG_PATH)"
