@@ -5,7 +5,14 @@ N8N_PATH_LOCAL="/data/n8n"
 
 mkdir -p "${N8N_PATH_LOCAL}/.n8n"
 
+#####################
+##  STARTUP DEBUG  ##
+#####################
+echo "Start n8n"
+echo "CONFIG:"
+cat $CONFIG_PATH
 
+echo "Set env variables"
 #####################
 ## USER PARAMETERS ##
 #####################
