@@ -8,6 +8,8 @@
   "stage": "experimental",
   "webui": "[PROTO:ssl]://[HOST]:[PORT:8080]/",
   "boot": "auto",
+  "icon": "icon.png",
+  "logo": "icon.png",
   "map": ["ssl"],
   "apparmor": true,
   "panel_admin": true,
