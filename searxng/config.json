@@ -1,26 +1,26 @@
 {
-  "name": "Home Assistant - searxng",
-  "version": "2022.07.01",
+  "name": "searxng",
+  "version": "2022.07.02",
   "slug": "hass-searxng",
   "description": "hass-searxng by niefuend",
   "arch": ["armhf", "armv7", "aarch64", "amd64", "i386"],
   "startup": "application",
   "stage": "experimental",
   "boot": "auto",
-  "icon": "icon.png",
-  "logo": "icon.png",
+  "icon": "icon.svg",
+  "logo": "icon.svg",
   "map": ["ssl"],
   "apparmor": true,
   "panel_admin": true,
   "panel_icon": "mdi:cloud-search",
   "ingress": true,
-  "ingress_port": 5678,
+  "ingress_port": 8080,
   "ingress_stream": true,
   "ports": {
-    "5678/tcp": 5678
+    "8080/tcp": 8080
   },
   "ports_description": {
-    "5678/tcp": "n8n Web interface"
+    "8080/tcp": "searxng Web interface"
   },
   "options": {
     "certfile": "fullchain.pem",
