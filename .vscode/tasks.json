@@ -14,6 +14,34 @@
         "panel": "new"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Start Addon",
+      "type": "shell",
+      "command": "slug=$(grep 'slug:' */config.yaml| awk '{print $2}'); docker exec -it hassio_cli sh -c \"ha addons stop local_$slug; ha addons start local_$slug\"; docker logs --follow addon_local_$slug",
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Rebuild and Start Addon",
+      "type": "shell",
+      "command": "slug=$(grep 'slug:' */config.yaml| awk '{print $2}'); docker exec -it hassio_cli sh -c \"ha addons rebuild local_$slug; ha addons start local_$slug\"; docker logs --follow addon_local_$slug",
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
     }
   ]
 }
