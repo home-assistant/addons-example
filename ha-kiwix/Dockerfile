@@ -1,5 +1,5 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
-ARG BUILD_FROM
+ARG ghcr.io/kiwix/kiwix-tools:3.1.2
 FROM $BUILD_FROM
 
 # Execute during the build of the image
@@ -10,3 +10,5 @@ RUN \
 
 # Copy root filesystem
 COPY rootfs /
+RUN apk add --no-cache cron
+RUN echo "0 2 * * * /usr/bin/run_kiwix --update" > /etc/crontabs/root
