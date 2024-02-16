@@ -1,5 +1,5 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
-ARG ghcr.io/kiwix/kiwix-tools:3.1.2
+ARG ghcr.io/kiwix/kiwix-tools:3.6.0
 FROM $BUILD_FROM
 
 # Execute during the build of the image
