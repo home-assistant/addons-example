@@ -1,7 +1,7 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 ARG BUILD_FROM
 FROM $BUILD_FROM
-LABEL org.opencontainers.image.source=https://github.com/home-assistant/addons-example
+
 # Execute during the build of the image
 ARG TEMPIO_VERSION BUILD_ARCH
 RUN \
