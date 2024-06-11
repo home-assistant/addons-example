@@ -18,7 +18,7 @@
     {
       "label": "Start Addon",
       "type": "shell",
-      "command": "docker exec -it hassio_cli sh -c \"ha addons stop local_${input:addonName}; ha addons start local_${input:addonName}\"; sudo docker logs --follow addon_local_${input:addonName}",
+      "command": "ha addons stop \"local_${input:addonName}\"; ha addons start \"local_${input:addonName}\"; docker logs --follow \"addon_local_${input:addonName}\"",
       "group": {
         "kind": "test",
         "isDefault": false
@@ -35,7 +35,7 @@
     {
       "label": "Rebuild and Start Addon",
       "type": "shell",
-      "command": "docker exec -it hassio_cli sh -c \"ha addons rebuild local_${input:addonName}; ha addons start local_${input:addonName}\"; sudo docker logs --follow addon_local_${input:addonName}",
+      "command": "ha addons rebuild \"local_${input:addonName}\"; ha addons start \"local_${input:addonName}\"; docker logs --follow \"addon_local_${input:addonName}\"",
       "group": {
         "kind": "test",
         "isDefault": false
