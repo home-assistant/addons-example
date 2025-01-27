@@ -1,25 +1,31 @@
 {
-  "name": "Example Home Assistant add-on repository",
-  "image": "ghcr.io/home-assistant/devcontainer:addons",
+  "name": "Example devcontainer for add-on repositories",
+  "image": "ghcr.io/home-assistant/devcontainer:2-addons",
   "appPort": ["7123:8123", "7357:4357"],
   "postStartCommand": "bash devcontainer_bootstrap",
   "runArgs": ["-e", "GIT_EDITOR=code --wait", "--privileged"],
-  "remoteUser":"root",
   "containerEnv": {
     "WORKSPACE_DIRECTORY": "${containerWorkspaceFolder}"
   },
-  "extensions": ["timonwong.shellcheck", "esbenp.prettier-vscode"],
-  "mounts": ["type=volume,target=/var/lib/docker"],
-  "settings": {
-    "terminal.integrated.profiles.linux": {
-      "zsh": {
-        "path": "/usr/bin/zsh"
+  "customizations": {
+    "vscode": {
+      "extensions": ["timonwong.shellcheck", "esbenp.prettier-vscode"],
+      "settings": {
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/usr/bin/zsh"
+          }
+        },
+        "terminal.integrated.defaultProfile.linux": "zsh",
+        "editor.formatOnPaste": false,
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "files.trimTrailingWhitespace": true
       }
-    },
-    "terminal.integrated.defaultProfile.linux": "zsh",
-    "editor.formatOnPaste": false,
-    "editor.formatOnSave": true,
-    "editor.formatOnType": true,
-    "files.trimTrailingWhitespace": true
-  }
+    }
+  },
+  "mounts": [
+    "type=volume,target=/var/lib/docker",
+    "type=volume,target=/mnt/supervisor"
+  ]
 }
