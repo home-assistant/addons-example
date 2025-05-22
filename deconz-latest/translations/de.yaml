@@ -1,0 +1,19 @@
+---
+configuration:
+  device:
+    name: Geräte
+    description: Die Geräteadresse Ihres ConBee/RaspBee.
+  dbg_aps:
+    name: Debug aps
+  dbg_info:
+    name: Debug info
+  dbg_otau:
+    name: Debug otau
+  dbg_zcl:
+    name: Debug zcl
+  dbg_zdp:
+    name: Debug zdp
+network:
+  40850/tcp: deCONZ API-Backend (Für den Zugang nicht erforderlich)
+  5900/tcp: deCONZ über VNC (Für den Zugang nicht erforderlich. Nicht sicher!)
+  8081/tcp: deCONZ WebSocket (Für den Zugang nicht erforderlich)

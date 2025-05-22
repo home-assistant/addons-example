@@ -1,0 +1,12 @@
+---
+build_from:
+  aarch64: ghcr.io/home-assistant/aarch64-base-debian:bookworm
+  amd64: ghcr.io/home-assistant/amd64-base-debian:bookworm
+  armhf: ghcr.io/home-assistant/armhf-base-raspbian:bookworm
+labels:
+  org.opencontainers.image.title: "Home Assistant Add-on: deCONZ (latest)"
+  org.opencontainers.image.description: "deCONZ (latest)"
+  org.opencontainers.image.source: "https://github.com/mattreim/home-assistant-addons"
+  org.opencontainers.image.licenses: "Apache License 2.0"
+args:
+  DECONZ_VERSION: 2.28.1
