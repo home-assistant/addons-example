@@ -7,6 +7,8 @@
   "containerEnv": {
     "WORKSPACE_DIRECTORY": "${containerWorkspaceFolder}"
   },
+  "workspaceFolder": "/mnt/supervisor/addons/local/${localWorkspaceFolderBasename}",
+  "workspaceMount": "source=${localWorkspaceFolder},target=${containerWorkspaceFolder},type=bind,consistency=cached",
   "customizations": {
     "vscode": {
       "extensions": ["timonwong.shellcheck", "esbenp.prettier-vscode"],
