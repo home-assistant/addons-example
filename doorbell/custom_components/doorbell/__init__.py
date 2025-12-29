@@ -99,7 +99,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
             # If your API returns {"error": "..."} on failure, convert to UpdateFailed
             #for name, resp in (("status", status), ("info", info)):
-            for name, resp in (("status", status)):
+            for name, resp in (("status", status),):
                 if isinstance(resp, dict) and "error" in resp:
                     raise UpdateFailed(f"{name} error: {resp['error']}")
 
