@@ -88,4 +88,5 @@ class PicoTTS(object):
         if v in VOICES:
             self._voice = v
         else:
-            print("Unknown voice, supported voices:{voices}".format(voices=VOICES))
+            #print("Unknown voice, supported voices:{voices}".format(voices=VOICES))
+            raise ValueError("Unknown voice, supported voices:{voices}".format(voices=VOICES))

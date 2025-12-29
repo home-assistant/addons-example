@@ -95,5 +95,7 @@ export TTS_LANG="${TTS_LANG}"
 bashio::log.info "starting up ..."
 #exec /usr/local/bin/doorbell-discovery.sh
 
-exec python3 /app/run.py
+#exec python3 /app/run.py
+exec python3 /app/doorbell_api.py
+#exec uvicorn doorbell_api:app --host 0.0.0.0 --port "$API_PORT"
 

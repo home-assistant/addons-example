@@ -48,6 +48,15 @@ RUN chmod +x /app/controller.py
 COPY /app/pico2wave.py /app/pico2wave.py
 RUN chmod +x /app/pico2wave.py
 
+COPY /app/doorbell_api.py /app/doorbell_api.py
+COPY /app/audio_player.py /app/audio_player.py
+
+COPY /app/favicon.ico /app/favicon.ico
+
+RUN chmod +x /app/doorbell_api.py
+RUN chmod +x /app/audio_player.py
+
+
 COPY run.sh /usr/local/bin/run.sh
 RUN chmod +x /usr/local/bin/run.sh
 
