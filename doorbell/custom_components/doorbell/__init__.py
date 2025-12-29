@@ -89,19 +89,23 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         """Poll status and info together."""
         try:
             status_task = asyncio.create_task(client.status())
-            info_task = asyncio.create_task(client.info())
-            status, info = await asyncio.gather(status_task, info_task)
+            #info_task = asyncio.create_task(client.info())
+            #status, info = await asyncio.gather(status_task, info_task)
+            status, info = await asyncio.gather(status_task)
             _LOGGER.debug("status_task %s", status)
-            _LOGGER.debug("info_task %s", info)
+            #_LOGGER.debug("info_task %s", info)
 
 
 
             # If your API returns {"error": "..."} on failure, convert to UpdateFailed
-            for name, resp in (("status", status), ("info", info)):
+            #for name, resp in (("status", status), ("info", info)):
+            for name, resp in (("status", status)):
                 if isinstance(resp, dict) and "error" in resp:
                     raise UpdateFailed(f"{name} error: {resp['error']}")
 
-            return {"status": status, "info": info}
+            #return {"status": status, "info": info}
+            return {"status": status}
+
 
         except AuthError as err:  # If you define/raise a custom auth error
             raise ConfigEntryAuthFailed from err
