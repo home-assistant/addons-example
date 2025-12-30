@@ -279,6 +279,9 @@ def status_audio():
     return {"status": "playing"}
 
 
+@app.get("/info")
+def info_audio():
+    return {"info": {"name": "doorbell","host": "doorbell", "ip": "0.0.0.0", "port": 5000}}
 
 
 if __name__ == "__main__":

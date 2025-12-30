@@ -1,11 +1,4 @@
-flask
-flask-cors
-Flask
 sounddevice
 soundfile
 uvicorn
 fastapi
-pydub
-requests
-waitress
-simpleaudio-patched
