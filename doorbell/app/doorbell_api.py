@@ -181,8 +181,8 @@ def beep_audio(req: BeepRequest):
             player.close()
 
         try:
-            beepwav = BeepNoise()
-            wav = beepwav.beep()
+            #beepwav = BeepNoise()
+            #wav = beepwav.beep()
 
             signal, sr = beepnoise2.generate_sine_with_silence(
                 frequency=880,
