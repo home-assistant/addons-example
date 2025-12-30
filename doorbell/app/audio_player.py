@@ -9,15 +9,27 @@ MAX_LOOP_MS = 60000
 
 
 class AudioPlayer:
-    def __init__(self, source, loops=1, volume=1.0):
-        if isinstance(source, (bytes, bytearray)):
-            source = io.BytesIO(source)
+    def __init__(self, source, loops=1, volume=1.0, samplerate=None):
+        # ------------------------------------
+        # Source handling
+        # ------------------------------------
+        if isinstance(source, np.ndarray):
+            if samplerate is None:
+                raise ValueError("samplerate required for numpy source")
 
-        # Decode ONCE
-        self.data, self.samplerate = sf.read(source, dtype="float32")
-        if self.data.ndim == 1:
-            self.data = self.data[:, np.newaxis]
+            self.data = source.astype(np.float32)
+            self.samplerate = samplerate
 
+        else:
+            if isinstance(source, (bytes, bytearray)):
+                source = io.BytesIO(source)
+
+            self.data, self.samplerate = sf.read(source, dtype="float32")
+
+            if self.data.ndim == 1:
+                self.data = self.data[:, np.newaxis]
+
+        # ------------------------------------
         self.channels = self.data.shape[1]
         self.total_frames = len(self.data)
 

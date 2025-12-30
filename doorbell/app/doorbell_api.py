@@ -8,6 +8,7 @@ from pydantic import BaseModel, field_validator
 import threading
 from pico2wave import PicoTTS, VOICES
 from beepnoise import BeepNoise
+import beepnoise2
 import wave
 from io import BytesIO
 
@@ -184,10 +185,18 @@ def beep_audio(req: BeepRequest):
             beepwav = BeepNoise()
             wav = beepwav.beep()
 
+            signal, sr = beepnoise2.generate_sine_with_silence(
+                frequency=880,
+                tone_ms=250,
+                silence_ms=250,
+                samplerate=16000
+            )
+
             player = AudioPlayer(
-                source=wav,
+                source=signal,
                 loops=req.number,
-                volume=req.volume/100
+                volume=req.volume/100,
+                samplerate=sr
             )
             player.play()
 
