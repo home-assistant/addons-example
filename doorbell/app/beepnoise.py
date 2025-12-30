@@ -16,14 +16,14 @@ class BeepNoise(object):
     def __init__(self, freq :int=880, duration :int=250 ):
         self._freq = freq
         self._duration = duration
-        self._sample_rate = 22050.0
+        self._sample_rate = 22050
         self._volume = 1.0
         self._audio = []
 
     def beep(self):
 
         self._append_sinewave(self._freq, self._duration, self._volume)
-        self._append_silence(self._duration/2)
+        self._append_silence(self._duration)
 
         tmp_file_name = tempfile.TemporaryFile(dir=".",suffix=".wav")
 
@@ -74,8 +74,8 @@ class BeepNoise(object):
 
 
     def _append_sinewave(self,
-            freq=440.0,
-            duration_milliseconds=500,
+            freq=880.0,
+            duration_milliseconds=250,
             volume=1.0):
         """
         The sine wave generated here is the standard beep.  If you want something
