@@ -16,7 +16,7 @@ class BeepNoise(object):
     def __init__(self, freq :int=880, duration :int=250 ):
         self._freq = freq
         self._duration = duration
-        self._sample_rate = 22050
+        self._sample_rate = 16000
         self._volume = 1.0
         self._audio = []
 
