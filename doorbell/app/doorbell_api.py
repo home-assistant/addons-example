@@ -7,7 +7,6 @@ from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel, field_validator
 import threading
 from pico2wave import PicoTTS, VOICES
-from beepnoise import BeepNoise
 import beepnoise2
 import wave
 from io import BytesIO
