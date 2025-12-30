@@ -19,11 +19,9 @@ RUN apk add --no-cache \
     picotts \
     sox \
     alsa-lib-dev \
-    ffmpeg \
     python3 \
     python3-dev \
-    py3-pip \
-    py3-pyaudio
+    py3-pip
 
 RUN pip3 install --no-cache-dir -U \
     setuptools \
@@ -37,14 +35,8 @@ RUN pip3 install --no-cache-dir -r /tmp/requirements.txt
 COPY /app/run.py /app/run.py
 RUN chmod +x /app/run.py
 
-COPY /app/audio.py /app/audio.py
-RUN chmod +x /app/audio.py
-COPY /app/beepnoise.py /app/beepnoise.py
-RUN chmod +x /app/beepnoise.py
 COPY /app/const.py /app/const.py
 RUN chmod +x /app/const.py
-COPY /app/controller.py /app/controller.py
-RUN chmod +x /app/controller.py
 COPY /app/pico2wave.py /app/pico2wave.py
 RUN chmod +x /app/pico2wave.py
 
@@ -69,11 +61,7 @@ COPY install.sh /usr/local/bin/install.sh
 # Ensure scripts are executable
 RUN chmod +x /usr/local/bin/install.sh
 
-#COPY audio.py /usr/local/bin/audio.py
-#COPY config.py /usr/local/bin/config.py
-#COPY controller.py /usr/local/bin/controller.py
-#COPY pico2wave.py /usr/local/bin/pico2wave.py
-#COPY beepnoise.py /usr/local/bin/beepnoise.py
+
 
 
 COPY audio-files/ /app/audio-files/
