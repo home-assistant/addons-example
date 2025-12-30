@@ -2,44 +2,44 @@ import sounddevice as sd
 import soundfile as sf
 import numpy as np
 import threading
-import io
 import time
-import logging
+import io
 
-MAX_LOOP_MS = 60000  # 60 seconds
+MAX_LOOP_MS = 60000
 
-_LOGGER = logging.getLogger(__name__)
 
 class AudioPlayer:
     def __init__(self, source, loops=1, volume=1.0):
         """
-        source : filename (str) OR BytesIO OR bytes
-        loops  : number of repeats, -1 = infinite (but capped at 60s)
+        source : file path | bytes | BytesIO
+        loops  : number of repeats, -1 = infinite (capped at 60s)
         volume : 0.0 .. 1.0
         """
 
+        # ---- Load audio ONCE (no decoding in callback) ----
+        if isinstance(source, (bytes, bytearray)):
+            source = io.BytesIO(source)
+
+        self.data, self.samplerate = sf.read(source, dtype="float32")
+
+        # Normalize mono → (N, 1)
+        if self.data.ndim == 1:
+            self.data = self.data[:, np.newaxis]
+
+        self.channels = self.data.shape[1]
+        self.total_frames = len(self.data)
+
+        # ---- Playback state ----
         self.volume = float(volume)
         self.loops = loops
+        self.current_loop = 0
+        self.position = 0
         self.start_time = None
-
-        #_LOGGER.info("loops %s", self.loops)
 
         self._stop_event = threading.Event()
         self._lock = threading.Lock()
 
-        # ---- Open source ----
-        if isinstance(source, (bytes, bytearray)):
-            #print("ist bytes")
-            source = io.BytesIO(source)
-
-        self.file = sf.SoundFile(source)
-        self.samplerate = self.file.samplerate
-        self.channels = self.file.channels
-        #print(f"sample rate: {self.samplerate}")
-        #print(f"channels : {self.channels}")
-
-        self.current_loop = 0
-
+        # ---- Audio stream (stable config) ----
         self.stream = sd.OutputStream(
             samplerate=self.samplerate,
             channels=self.channels,
@@ -49,71 +49,74 @@ class AudioPlayer:
             latency="high"
         )
 
-    # ---------- Audio callback ----------
+    # ---------------------------------------------------
+    # Real-time safe callback (NO allocations / IO)
+    # ---------------------------------------------------
     def _callback(self, outdata, frames, time_info, status):
         if self._stop_event.is_set():
             outdata.fill(0)
             raise sd.CallbackStop()
 
-        # Enforce max loop duration
+        # Hard loop duration cap
         if self.start_time and (time.time() - self.start_time) * 1000 >= MAX_LOOP_MS:
             raise sd.CallbackStop()
 
-        #print(f"frames: {frames}")
+        filled = 0
 
-        data = self.file.read(frames, dtype="float32")
-        #print(f"len data: {len(data)}")
+        while filled < frames:
+            remaining_data = self.total_frames - self.position
+            remaining_out = frames - filled
 
-        if data.ndim == 1:
-            data = data[:, np.newaxis]
-
-        if len(data) < frames:
-            #print("X")
-            outdata[:len(data)] = data
-            outdata[len(data):] = 0
-
-            self.current_loop += 1
-            if self.loops == -1 or self.current_loop < self.loops:
-                self.file.seek(0)
+            if remaining_data >= remaining_out:
+                # Normal case
+                outdata[filled:filled + remaining_out] = \
+                    self.data[self.position:self.position + remaining_out]
+                self.position += remaining_out
+                filled += remaining_out
             else:
-                raise sd.CallbackStop()
-        else:
-            #None
-            #print(f"else: {len(data)}")
-            outdata[:] = data
-            #outdata[:] = data
+                # End of buffer reached
+                outdata[filled:filled + remaining_data] = \
+                    self.data[self.position:self.total_frames]
+                filled += remaining_data
 
-        # Apply volume (thread-safe)
-        with self._lock:
-            outdata *= self.volume
+                self.current_loop += 1
+                if self.loops == -1 or self.current_loop < self.loops:
+                    self.position = 0
+                else:
+                    # No more loops → stop exactly here
+                    outdata[filled:] = 0
+                    raise sd.CallbackStop()
 
-    # ---------- Controls ----------
+        outdata *= self.volume
+
+
+    # ---------------------------------------------------
+    # Controls
+    # ---------------------------------------------------
     def play(self):
         self._stop_event.clear()
-        self.file.seek(0)
+        self.position = 0
         self.current_loop = 0
         self.start_time = time.time()
         self.stream.start()
 
     def stop(self):
         self._stop_event.set()
-        self.stream.stop()
-        self.file.seek(0)
-        self.current_loop = 0
+        if self.stream.active:
+            self.stream.stop()
 
     def close(self):
         self.stop()
         self.stream.close()
-        self.file.close()
 
-    # ---------- Volume ----------
+    # ---------------------------------------------------
+    # Volume
+    # ---------------------------------------------------
     def set_volume(self, volume):
-        """Set volume: 0.0 .. 1.0"""
         with self._lock:
             self.volume = max(0.0, min(1.0, float(volume)))
 
     def fade_to(self, target, duration_ms=500):
-        """Smooth volume fade"""
         steps = 50
         step_time = duration_ms / steps / 1000
         delta = (target - self.volume) / steps
@@ -125,46 +128,3 @@ class AudioPlayer:
                 time.sleep(step_time)
 
         threading.Thread(target=_fade, daemon=True).start()
-
-'''
-print("Play MP3 file (background)")
-
-player = AudioPlayer("../audio-files/ding_dong.mp3", loops=3, volume=0.7)
-player.play()
-time.sleep(2)
-player.stop()
-time.sleep(1)
-
-print("Infinite loop (auto-stops at 60s)")
-
-player = AudioPlayer("../audio-files/ding_dong.mp3", loops=-1)
-player.play()
-
-time.sleep(2)
-
-print("Change volume while playing")
-
-player.set_volume(0.3)
-
-time.sleep(2)
-
-player.fade_to(1.0, duration_ms=1000)
-
-time.sleep(2)
-
-player.stop()
-time.sleep(1)
-
-print("Play from BytesIO / memory")
-
-with open("../audio-files/ding_dong.mp3", "rb") as f:
-    data = f.read()
-
-player = AudioPlayer(data, loops=2, volume=0.8)
-player.play()
-
-time.sleep(2)
-
-player.stop()
-player.close()
-'''
