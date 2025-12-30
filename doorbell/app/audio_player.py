@@ -10,36 +10,27 @@ MAX_LOOP_MS = 60000
 
 class AudioPlayer:
     def __init__(self, source, loops=1, volume=1.0):
-        """
-        source : file path | bytes | BytesIO
-        loops  : number of repeats, -1 = infinite (capped at 60s)
-        volume : 0.0 .. 1.0
-        """
-
-        # ---- Load audio ONCE (no decoding in callback) ----
         if isinstance(source, (bytes, bytearray)):
             source = io.BytesIO(source)
 
+        # Decode ONCE
         self.data, self.samplerate = sf.read(source, dtype="float32")
-
-        # Normalize mono → (N, 1)
         if self.data.ndim == 1:
             self.data = self.data[:, np.newaxis]
 
         self.channels = self.data.shape[1]
         self.total_frames = len(self.data)
 
-        # ---- Playback state ----
         self.volume = float(volume)
         self.loops = loops
-        self.current_loop = 0
+
         self.position = 0
+        self.current_loop = 0
         self.start_time = None
 
         self._stop_event = threading.Event()
-        self._lock = threading.Lock()
+        self._should_stop_after_block = False
 
-        # ---- Audio stream (stable config) ----
         self.stream = sd.OutputStream(
             samplerate=self.samplerate,
             channels=self.channels,
@@ -49,17 +40,23 @@ class AudioPlayer:
             latency="high"
         )
 
-    # ---------------------------------------------------
-    # Real-time safe callback (NO allocations / IO)
-    # ---------------------------------------------------
+    # --------------------------------------------------
+    # PortAudio-safe callback (NO premature stop)
+    # --------------------------------------------------
     def _callback(self, outdata, frames, time_info, status):
+        outdata.fill(0)
+
         if self._stop_event.is_set():
-            outdata.fill(0)
             raise sd.CallbackStop()
 
-        # Hard loop duration cap
-        if self.start_time and (time.time() - self.start_time) * 1000 >= MAX_LOOP_MS:
+        # Stop AFTER last buffer was fully sent
+        if self._should_stop_after_block:
             raise sd.CallbackStop()
+
+        # Hard loop time cap
+        if self.start_time and (time.time() - self.start_time) * 1000 >= MAX_LOOP_MS:
+            self._should_stop_after_block = True
+            return
 
         filled = 0
 
@@ -68,36 +65,35 @@ class AudioPlayer:
             remaining_out = frames - filled
 
             if remaining_data >= remaining_out:
-                # Normal case
                 outdata[filled:filled + remaining_out] = \
                     self.data[self.position:self.position + remaining_out]
                 self.position += remaining_out
                 filled += remaining_out
             else:
-                # End of buffer reached
+                # End of audio
                 outdata[filled:filled + remaining_data] = \
-                    self.data[self.position:self.total_frames]
+                    self.data[self.position:]
                 filled += remaining_data
 
                 self.current_loop += 1
                 if self.loops == -1 or self.current_loop < self.loops:
                     self.position = 0
                 else:
-                    # No more loops → stop exactly here
-                    outdata[filled:] = 0
-                    raise sd.CallbackStop()
+                    # IMPORTANT: do NOT stop yet
+                    self._should_stop_after_block = True
+                    break
 
         outdata *= self.volume
 
-
-    # ---------------------------------------------------
+    # --------------------------------------------------
     # Controls
-    # ---------------------------------------------------
+    # --------------------------------------------------
     def play(self):
-        self._stop_event.clear()
         self.position = 0
         self.current_loop = 0
         self.start_time = time.time()
+        self._should_stop_after_block = False
+        self._stop_event.clear()
         self.stream.start()
 
     def stop(self):
@@ -109,22 +105,5 @@ class AudioPlayer:
         self.stop()
         self.stream.close()
 
-    # ---------------------------------------------------
-    # Volume
-    # ---------------------------------------------------
     def set_volume(self, volume):
-        with self._lock:
-            self.volume = max(0.0, min(1.0, float(volume)))
-
-    def fade_to(self, target, duration_ms=500):
-        steps = 50
-        step_time = duration_ms / steps / 1000
-        delta = (target - self.volume) / steps
-
-        def _fade():
-            for _ in range(steps):
-                with self._lock:
-                    self.volume += delta
-                time.sleep(step_time)
-
-        threading.Thread(target=_fade, daemon=True).start()
+        self.volume = max(0.0, min(1.0, float(volume)))
