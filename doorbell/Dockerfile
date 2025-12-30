@@ -21,7 +21,9 @@ RUN apk add --no-cache \
     alsa-lib-dev \
     python3 \
     python3-dev \
-    py3-pip
+    py3-pip \
+    portaudio
+
 
 RUN pip3 install --no-cache-dir -U \
     setuptools \
@@ -31,9 +33,6 @@ WORKDIR /app
 
 COPY /app/requirements.txt /tmp/
 RUN pip3 install --no-cache-dir -r /tmp/requirements.txt
-
-COPY /app/run.py /app/run.py
-RUN chmod +x /app/run.py
 
 COPY /app/const.py /app/const.py
 RUN chmod +x /app/const.py

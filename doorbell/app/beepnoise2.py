@@ -1,5 +1,4 @@
 import numpy as np
-import sounddevice as sd
 
 # Parameters
 samplerate = 48000   # Hz
