@@ -44,7 +44,9 @@ class AudioPlayer:
             samplerate=self.samplerate,
             channels=self.channels,
             dtype="float32",
-            callback=self._callback
+            callback=self._callback,
+            blocksize=2048,
+            latency="high"
         )
 
     # ---------- Audio callback ----------

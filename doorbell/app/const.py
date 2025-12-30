@@ -13,3 +13,6 @@ LOG_LEVEL = os.getenv("LOG_LEVEL", "info").upper()
 TTS_LANG  = os.getenv("TTS_LANG", "en-US")
 
 HOST = "0.0.0.0"
+
+# Disable ALSA warning spam
+os.environ["ALSA_LOG_LEVEL"] = "none"
