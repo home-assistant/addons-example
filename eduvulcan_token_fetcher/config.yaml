@@ -1,0 +1,19 @@
+# https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
+name: EduVulcan Token Fetcher
+version: "1.0.0"
+slug: eduvulcan_token_fetcher
+description: Fetches a JWT token via Playwright and stores it in /config/eduvulcan_token.json
+url: "https://developers.home-assistant.io/docs/add-ons"
+arch:
+  - aarch64
+  - amd64
+init: false
+startup: once
+map:
+  - config:rw
+options:
+  login: ""
+  password: ""
+schema:
+  login: str
+  password: password
