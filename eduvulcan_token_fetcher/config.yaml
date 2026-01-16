@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: EduVulcan Token Fetcher
-version: "1.0.1"
+version: "0.1"
 slug: eduvulcan_token_fetcher
 description: Fetches JWT from eduVULCAN via Playwright (reads from #ap) and stores it in /config
 url: "https://developers.home-assistant.io/docs/add-ons"
