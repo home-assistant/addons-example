@@ -83,6 +83,7 @@ CONF_HOST=$(bashio::config 'host')
 CONF_PORT=$(bashio::addon.port 5000)
 LOG_LEVEL=$(bashio::config 'log_level')
 TTS_LANG=$(bashio::config 'tts_lang')
+DOORBELL_OUTPUT=$(bashio::config 'output')
 
 bashio::log.info "Starting API on ${CONF_HOST}:${CONF_PORT}"
 
@@ -90,10 +91,16 @@ export API_HOST="${CONF_HOST}"
 export API_PORT="${CONF_PORT}"
 export LOG_LEVEL="${LOG_LEVEL}"
 export TTS_LANG="${TTS_LANG}"
+export DOORBELL_OUTPUT="${DOORBELL_OUTPUT}"
 
+bashio::log.info "possible outputs ..."
+
+exec python3 -m sounddevices
 
 bashio::log.info "starting up ..."
 #exec /usr/local/bin/doorbell-discovery.sh
+
+
 
 #exec python3 /app/run.py
 exec python3 /app/doorbell_api.py
