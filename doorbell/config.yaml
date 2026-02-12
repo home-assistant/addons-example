@@ -44,6 +44,7 @@ options:
 schema:
   preserve_changes: bool
   verbose_logging: bool
+  output: str
   tts_lang: list(en-US|en-GB|de-DE|es-ES|fr-FR|it-IT)
   log_level: list(debug|info|warning|error)
 
