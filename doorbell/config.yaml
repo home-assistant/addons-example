@@ -22,8 +22,7 @@ startup: services
 boot: manual
 ports:
   5000/tcp: 5000
-full_access: False
-full_access: False
+full_access: True
 hassio_role: default
 auth_api: True
 hassio_api: True
