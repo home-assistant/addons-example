@@ -23,6 +23,13 @@ boot: manual
 ports:
   5000/tcp: 5000
 full_access: True
+apparmor: False
+privileged:
+  - SYS_PTRACE
+  - SYS_ADMIN
+  - SYS_NICE
+  - IPC_LOCK
+udev: True
 hassio_role: default
 auth_api: True
 hassio_api: True
