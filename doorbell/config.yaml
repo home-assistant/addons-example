@@ -35,7 +35,7 @@ auth_api: True
 hassio_api: True
 homeassistant_api: True
 stdin: True
-audio: True
+audio: False
 options:
   preserve_changes: False
   verbose_logging: True
