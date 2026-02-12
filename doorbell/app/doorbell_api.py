@@ -238,18 +238,15 @@ def loop_audio(req: LoopRequest):
 
         try:
             path = os.path.join(AUDIO_DIR, req.filename)
-            #_LOGGER.info("path: %s" , path)
             player = AudioPlayer(
                 source=path,
                 loops=-1,
                 volume=req.volume/100
             )
-            #_LOGGER.info("path: %s" , path)
             player.play()
-            #_LOGGER.info("path: %s" , path)
         except Exception as e:
             raise HTTPException(status_code=400, detail=str(e))
-
+    #TODO max duration should be configurable
     return {"status": "looping", "filename": req.filename, "max_duration_ms": 60000}
 
 
@@ -280,7 +277,8 @@ def status_audio():
 
 @app.get("/info")
 def info_audio():
-    return {"info": {"name": "doorbell","host": "doorbell", "ip": "0.0.0.0", "port": 5000}}
+    #TODO: try to get actual hostname, port and ip address
+    return {"info": {"name": "doorbell","host": "doorbell", "ip": HOST, "port": PORT}}
 
 
 if __name__ == "__main__":

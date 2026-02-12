@@ -1,0 +1,10 @@
+configuration:
+  loop_duration:
+    name: Max Loop duration
+    description: Maxuming duration loop of audiofile should be played
+  tts_lang:
+    name: Default TTS language
+    description: Default TTS language
+  log_level:
+    name: Log Level
+    description: Log Level
