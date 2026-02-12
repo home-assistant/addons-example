@@ -6,19 +6,15 @@ ENV LANG=C.UTF-8
 # Setup base, install pulseaudio & sox package
 RUN apk update
 RUN echo #############################################
-RUN apk search pip
-RUN echo #############################################
+#RUN apk search pip
+#RUN echo #############################################
 RUN apk add --no-cache \
     rsync \
-    gcc \
-    g++ \
-    jq \
     pulseaudio \
     pulseaudio-utils \
     alsa-plugins-pulse \
     picotts \
     sox \
-    alsa-lib-dev \
     python3 \
     python3-dev \
     py3-pip \
@@ -53,15 +49,6 @@ RUN chmod +x /app/beepnoise2.py
 
 COPY run.sh /usr/local/bin/run.sh
 RUN chmod +x /usr/local/bin/run.sh
-
-COPY doorbell-discovery.sh /usr/local/bin/doorbell-discovery.sh
-RUN chmod +x /usr/local/bin/doorbell-discovery.sh
-
-COPY install.sh /usr/local/bin/install.sh
-# Ensure scripts are executable
-RUN chmod +x /usr/local/bin/install.sh
-
-
 
 
 COPY audio-files/ /app/audio-files/

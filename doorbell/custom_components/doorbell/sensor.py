@@ -16,8 +16,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
     coordinator = data["coordinator"]
     async_add_entities([
         DoorbellStatusSensor(coordinator),
-        #DoorbellInfoSensor(coordinator, "host"),
-        #DoorbellInfoSensor(coordinator, "port"),
+        DoorbellInfoSensor(coordinator, "host"),
+        DoorbellInfoSensor(coordinator, "port"),
     ])
 
 class DoorbellStatusSensor(CoordinatorEntity, SensorEntity):
@@ -48,6 +48,11 @@ class DoorbellInfoSensor(CoordinatorEntity, SensorEntity):
         self._key = key
         self._attr_name = f"Info {key}"
         self._attr_unique_id = f"doorbell_info_{key}"
+        self._attr_device_info = {
+            "identifiers": {(DOMAIN, "doorbell")},
+            "name": "Doorbell",
+            "manufacturer": "luksi1234",
+        }
 
     @property
     def native_value(self):

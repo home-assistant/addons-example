@@ -39,9 +39,12 @@ class DoorbellClient:
         return await self._get_json("/info")
 
     # POST actions
-    async def tts(self, message: str, volume: int) -> Dict[str, Any]:
+    async def tts(self, message: str, volume: int, lang: str) -> Dict[str, Any]:
         _LOGGER.debug("tts executed ...")
-        return await self._post_json("/tts", {"message": message, "volume": volume})
+        if lang is not None:
+            return await self._post_json("/tts", {"message": message, "volume": volume, "lang": lang})
+        else:
+            return await self._post_json("/tts", {"message": message, "volume": volume})
 
     async def play(self, filename: str, volume: int) -> Dict[str, Any]:
         _LOGGER.debug("play executed ...")

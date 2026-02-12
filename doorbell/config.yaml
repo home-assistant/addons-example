@@ -37,15 +37,11 @@ homeassistant_api: True
 stdin: True
 audio: False
 options:
-  preserve_changes: False
-  verbose_logging: True
+  loop_duration: 60
   tts_lang: de-DE
-  log_level: debug
+  log_level: warning
 schema:
-  preserve_changes: bool
-  verbose_logging: bool
   output: str
+  loop_duration: int
   tts_lang: list(en-US|en-GB|de-DE|es-ES|fr-FR|it-IT)
   log_level: list(debug|info|warning|error)
-
-

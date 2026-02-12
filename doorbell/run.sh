@@ -7,13 +7,6 @@ echo "hello from doorbell!"
 
 bashio::log.info "Starting Example Config Copier add-on"
 
-# Read add-on option (true/false)
-PRESERVE_CHANGES=$(bashio::config 'preserve_changes')
-VERBOSE=$(bashio::config 'verbose_logging')
-
-if [ "${VERBOSE}" = "true" ]; then
-  bashio::log.info "preserve_changes=${PRESERVE_CHANGES}"
-fi
 
 SRC_DIR="/app/homeassistant/doorbell"
 DST_DIR="/homeassistant/custom_components/doorbell"
@@ -29,19 +22,9 @@ if [ ! -d "${DST_DIR}" ]; then
   mkdir -p "${DST_DIR}"
 fi
 
-# Copy strategy
-# - If preserve_changes=true: copy only missing files (do not overwrite existing files)
-# - If preserve_changes=false: overwrite on every startup (user requested behavior)
-
-if [ "${PRESERVE_CHANGES}" = "true" ]; then
-  bashio::log.info "Preserving existing files in ${DST_DIR} (no overwrite)"
-  # Use rsync to copy only files that don't exist or are newer in source
-  rsync -a -vv --ignore-existing --no-perms --no-owner --no-group "${SRC_DIR}/" "${DST_DIR}/"
-else
-  bashio::log.info "Copying files from ${SRC_DIR} to ${DST_DIR} (overwriting existing files)"
-  # Use rsync to mirror the data directory into /config, overwrite by default
-  rsync -a -vv --delete --no-perms --no-owner --no-group "${SRC_DIR}/" "${DST_DIR}/"
-fi
+bashio::log.info "Copying files from ${SRC_DIR} to ${DST_DIR} (overwriting existing files)"
+# Use rsync to mirror the data directory into /config, overwrite by default
+rsync -a -vv --delete --no-perms --no-owner --no-group "${SRC_DIR}/" "${DST_DIR}/"
 
 # Optionally set a marker file with timestamp to indicate last copy
 date -u +"%Y-%m-%dT%H:%M:%SZ" > "${DST_DIR}/.addon_config_copied_timestamp"
@@ -68,27 +51,25 @@ bashio::log.info "$(bashio::config 'port')"
 
 config=$(bashio::var.json \
     host "$(bashio::addon.hostname)" \
-    port2 "^8081" \
     port "$(bashio::config 'port')" \
-    firmware "12345" \
 )
 
-bashio::discovery "doorbell" "${config}" > /dev/null
+#bashio::discovery "doorbell" "${config}" > /dev/null
 #bashio::log.info "Published discovery: host=my_example_addon port=${PORT}"
 
 bashio::log.info "setting env variables ..."
 
 
 CONF_HOST=$(bashio::config 'host')
-CONF_PORT=$(bashio::addon.port 5000)
+#CONF_PORT=$(bashio::addon.port 5000)
 LOG_LEVEL=$(bashio::config 'log_level')
 TTS_LANG=$(bashio::config 'tts_lang')
 DOORBELL_OUTPUT=$(bashio::config 'output')
 
-bashio::log.info "Starting API on ${CONF_HOST}:${CONF_PORT}"
+#bashio::log.info "Starting API on ${CONF_HOST}:${CONF_PORT}"
 
 export API_HOST="${CONF_HOST}"
-export API_PORT="${CONF_PORT}"
+#export API_PORT="${CONF_PORT}"
 export LOG_LEVEL="${LOG_LEVEL}"
 export TTS_LANG="${TTS_LANG}"
 export DOORBELL_OUTPUT="${DOORBELL_OUTPUT}"

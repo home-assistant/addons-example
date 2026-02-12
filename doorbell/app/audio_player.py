@@ -5,6 +5,7 @@ import threading
 import time
 import io
 
+#TODO mac duration of loop should be configurable
 MAX_LOOP_MS = 60000
 
 
