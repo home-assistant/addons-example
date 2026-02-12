@@ -40,7 +40,7 @@ bashio::log.info "Config copy completed"
 
 
 
-declare config
+
 
 bashio::log.info "doing discovery ..."
 
@@ -49,10 +49,6 @@ bashio::log.info "$(bashio::addon.hostname)"
 bashio::log.info "$(bashio::addon.port 5000)"
 bashio::log.info "$(bashio::config 'port')"
 
-config=$(bashio::var.json \
-    host "$(bashio::addon.hostname)" \
-    port "$(bashio::config 'port')" \
-)
 
 #bashio::discovery "doorbell" "${config}" > /dev/null
 #bashio::log.info "Published discovery: host=my_example_addon port=${PORT}"
