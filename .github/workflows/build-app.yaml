@@ -18,9 +18,9 @@ jobs:
     outputs:
       architectures: ${{ steps.info.outputs.architectures }}
       build_matrix: ${{ steps.matrix.outputs.matrix }}
-      image_name: ${{ steps.split.outputs.image_name }}
-      registry_prefix: ${{ steps.split.outputs.registry_prefix }}
-      version: ${{ steps.info.outputs.version }}
+      image_name: ${{ steps.normalize.outputs.image_name }}
+      registry_prefix: ${{ steps.normalize.outputs.registry_prefix }}
+      version: ${{ steps.normalize.outputs.version }}
     steps:
       - name: Check out the repository
         uses: actions/checkout@v6.0.2
@@ -31,20 +31,23 @@ jobs:
         with:
           path: "./${{ inputs.app }}"
 
-      - name: Split image name
-        id: split
+      - name: Normalize app information
+        id: normalize
         run: |
           image="${{ steps.info.outputs.image }}"
           echo "image_name=${image##*/}" >> "$GITHUB_OUTPUT"
           echo "registry_prefix=${image%/*}" >> "$GITHUB_OUTPUT"
+          # Strip surrounding quotes that the info action includes from YAML string values
+          version="${{ steps.info.outputs.version }}"
+          echo "version=${version//[\"\']/}" >> "$GITHUB_OUTPUT"
 
       - name: Prepare build matrix
         id: matrix
         uses: home-assistant/builder/actions/prepare-multi-arch-matrix@2026.03.2
         with:
           architectures: ${{ steps.info.outputs.architectures }}
-          image-name: ${{ steps.split.outputs.image_name }}
-          registry-prefix: ${{ steps.split.outputs.registry_prefix }}
+          image-name: ${{ steps.normalize.outputs.image_name }}
+          registry-prefix: ${{ steps.normalize.outputs.registry_prefix }}
 
   build:
     name: Build ${{ matrix.arch }} ${{ inputs.app }}
