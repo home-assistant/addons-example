@@ -3,7 +3,7 @@ name: Example app
 version: "1.3.0"
 slug: example
 description: Example app
-url: "https://github.com/home-assistant/addons-example/tree/main/example"
+url: "https://github.com/home-assistant/apps-example/tree/main/example"
 arch:
   - aarch64
   - amd64
