@@ -12,7 +12,7 @@ on:
 
 jobs:
   find:
-    name: Find add-ons
+    name: Find apps
     runs-on: ubuntu-latest
     outputs:
       addons: ${{ steps.addons.outputs.addons_list }}
@@ -20,12 +20,12 @@ jobs:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v6.0.2
 
-      - name: 🔍 Find add-on directories
+      - name: 🔍 Find app directories
         id: addons
         uses: home-assistant/actions/helpers/find-addons@master
 
   lint:
-    name: Lint add-on ${{ matrix.path }}
+    name: Lint app ${{ matrix.path }}
     runs-on: ubuntu-latest
     needs: find
     strategy:
@@ -35,7 +35,7 @@ jobs:
       - name: ⤵️ Check out code from GitHub
         uses: actions/checkout@v6.0.2
 
-      - name: 🚀 Run Home Assistant Add-on Lint
+      - name: 🚀 Run Home Assistant App Lint
         uses: frenck/action-addon-linter@v2.21
         with:
           path: "./${{ matrix.path }}"
