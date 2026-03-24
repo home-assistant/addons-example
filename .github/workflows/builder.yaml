@@ -63,6 +63,7 @@ jobs:
           fi
 
   build-app:
+    name: Build ${{ matrix.app }}
     needs: init
     if: needs.init.outputs.changed == 'true'
     permissions:

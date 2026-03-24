@@ -12,7 +12,7 @@ on:
 
 jobs:
   prepare:
-    name: Prepare ${{ inputs.app }}
+    name: Prepare
     if: github.repository == 'home-assistant/apps-example'
     runs-on: ubuntu-latest
     outputs:
@@ -50,7 +50,7 @@ jobs:
           registry-prefix: ${{ steps.normalize.outputs.registry_prefix }}
 
   build:
-    name: Build ${{ matrix.arch }} ${{ inputs.app }}
+    name: Build ${{ matrix.arch }} image
     needs: prepare
     runs-on: ${{ matrix.os }}
     permissions:
