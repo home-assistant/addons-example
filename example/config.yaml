@@ -14,4 +14,4 @@ options:
   message: "Hello world..."
 schema:
   message: "str?"
-image: "ghcr.io/home-assistant/{arch}-app-example"
+image: "ghcr.io/home-assistant/app-example"
