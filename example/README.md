@@ -1,6 +1,6 @@
-# Home Assistant Add-on: Example add-on
+# Home Assistant App: Example app
 
-_Example add-on to use as a blueprint for new add-ons._
+_Example app to use as a blueprint for new apps._
 
 ![Supports aarch64 Architecture][aarch64-shield]
 ![Supports amd64 Architecture][amd64-shield]

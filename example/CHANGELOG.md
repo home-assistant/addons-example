@@ -1,4 +1,8 @@
-<!-- https://developers.home-assistant.io/docs/add-ons/presentation#keeping-a-changelog -->
+<!-- https://developers.home-assistant.io/docs/apps/presentation#keeping-a-changelog -->
+## 1.3.0
+
+- Updated to Alpine 3.23 base image.
+- Renamed from "add-on" to "app".
 
 ## 1.2.0
 
