@@ -16,6 +16,20 @@
       "problemMatcher": []
     },
     {
+      "label": "Install App",
+      "type": "shell",
+      "command": "ha apps install \"local_${input:appName}\"",
+      "group": {
+        "kind": "test",
+        "isDefault": false
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
       "label": "Start App",
       "type": "shell",
       "command": "ha apps stop \"local_${input:appName}\"; ha apps start \"local_${input:appName}\"; docker logs --follow \"addon_local_${input:appName}\"",
