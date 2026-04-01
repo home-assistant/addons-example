@@ -16,9 +16,9 @@
       "problemMatcher": []
     },
     {
-      "label": "Start Addon",
+      "label": "Start App",
       "type": "shell",
-      "command": "ha addons stop \"local_${input:addonName}\"; ha addons start \"local_${input:addonName}\"; docker logs --follow \"addon_local_${input:addonName}\"",
+      "command": "ha apps stop \"local_${input:appName}\"; ha apps start \"local_${input:appName}\"; docker logs --follow \"addon_local_${input:appName}\"",
       "group": {
         "kind": "test",
         "isDefault": false
@@ -33,9 +33,9 @@
       }
     },
     {
-      "label": "Rebuild and Start Addon",
+      "label": "Rebuild and Start App",
       "type": "shell",
-      "command": "ha addons rebuild --force \"local_${input:addonName}\"; ha addons start \"local_${input:addonName}\"; docker logs --follow \"addon_local_${input:addonName}\"",
+      "command": "ha apps rebuild --force \"local_${input:appName}\"; ha apps start \"local_${input:appName}\"; docker logs --follow \"addon_local_${input:appName}\"",
       "group": {
         "kind": "test",
         "isDefault": false
@@ -49,9 +49,9 @@
   ],
   "inputs": [
     {
-      "id": "addonName",
+      "id": "appName",
       "type": "pickString",
-      "description": "Name of addon (to add your addon to this list, please edit .vscode/tasks.json)",
+      "description": "Name of app (to add your app to this list, please edit .vscode/tasks.json)",
       "options": [
         "example",
       ]
