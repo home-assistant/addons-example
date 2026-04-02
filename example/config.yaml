@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/apps/configuration#app-configuration
 name: Example app
-version: "1.3.0"
+version: "1.3.1"
 slug: example
 description: Example app
 url: "https://github.com/home-assistant/apps-example/tree/main/example"

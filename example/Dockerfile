@@ -21,7 +21,6 @@ RUN \
 COPY rootfs /
 
 LABEL \
-    io.hass.type="addon" \
     org.opencontainers.image.title="Home Assistant App: Example app" \
     org.opencontainers.image.description="Example app to use as a blueprint for new apps." \
     org.opencontainers.image.source="https://github.com/home-assistant/apps-example" \
